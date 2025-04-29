@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Heart Disease Risk Prediction</title>
+    <style>
+      body {
+        font-family: "Segoe UI", sans-serif;
+        background: linear-gradient(to right, #fceabb, #f8b500);
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 30px;
+        background-color: white;
+        border-radius: 15px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+        text-align: center;
+        color: #e74c3c;
+      }
+      form label {
+        display: block;
+        margin-top: 15px;
+        font-weight: bold;
+      }
+      form input[type="number"] {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+      }
+      input[type="submit"] {
+        margin-top: 20px;
+        width: 100%;
+        padding: 12px;
+        background-color: #e74c3c;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      input[type="submit"]:hover {
+        background-color: #c0392b;
+      }
+      .result {
+        margin-top: 20px;
+        padding: 15px;
+        background: #ecf0f1;
+        border-left: 5px solid #2ecc71;
+        border-radius: 6px;
+      }
+      .error {
+        margin-top: 20px;
+        color: red;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Heart Disease Risk Prediction</h1>
+
+      <form method="POST" action="/predict">
+        {% for col in columns %}
+        <label>{{ col.replace("_", " ").title() }}</label>
+        <input type="number" step="any" name="{{ col }}" required />
+        {% endfor %}
+        <input type="submit" value="Predict" />
+      </form>
+
+      {% if error %}
+      <p class="error">{{ error }}</p>
+      {% endif %} {% if prediction_svm is not none %}
+      <div class="result">
+        <h3>Prediction Result:</h3>
+        <p><strong>SVM Model Prediction:</strong> {{ prediction_svm }}</p>
+        <p>Note: 0 = No Heart Disease | 1 = Risk of Heart Disease</p>
+      </div>
+      {% endif %}
+    </div>
+  </body>
+</html>
